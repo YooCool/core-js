@@ -49,8 +49,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zloirock/core-js.git"
+    "url": "https://github.com/YooCool/core-js.git"
   },
+  "name": "core-js-test",
+  "version": "1.0.0",
   "scripts": {
     "bootstrap": "lerna bootstrap --no-ci",
     "build": "npm run bootstrap && grunt clean copy && npm run build-compat && grunt bundle uglify",
