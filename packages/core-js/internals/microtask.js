@@ -38,14 +38,6 @@ if (!queueMicrotask) {
       process.nextTick(flush);
     };
   // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
-  } else if (MutationObserver && !/(iPhone|iPod|iPad).*AppleWebKit/i.test(userAgent)) {
-    toggle = true;
-    node = document.createTextNode('');
-    new MutationObserver(flush).observe(node, { characterData: true }); // eslint-disable-line no-new
-    notify = function () {
-      node.data = toggle = !toggle;
-    };
-  // environments with maybe non-completely correct, but existent Promise
   } else if (Promise && Promise.resolve) {
     // Promise.resolve without an argument throws an error in LG WebOS 2
     promise = Promise.resolve(undefined);
@@ -58,6 +50,14 @@ if (!queueMicrotask) {
   // - window.postMessag
   // - onreadystatechange
   // - setTimeout
+  } else if (MutationObserver && !/(iPhone|iPod|iPad).*AppleWebKit/i.test(userAgent)) {
+    toggle = true;
+    node = document.createTextNode('');
+    new MutationObserver(flush).observe(node, { characterData: true }); // eslint-disable-line no-new
+    notify = function () {
+      node.data = toggle = !toggle;
+    };
+  // environments with maybe non-completely correct, but existent Promise
   } else {
     notify = function () {
       // strange IE + webpack dev server bug - use .call(global)
